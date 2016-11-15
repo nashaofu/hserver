@@ -1,0 +1,32 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "this is a web app framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diaocheng/server.git"
+  },
+  "keywords": [
+    "web",
+    "http",
+    "framework",
+    "middleware"
+  ],
+  "author": "程刁",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 4"
+  },
+  "bugs": {
+    "url": "https://github.com/diaocheng/server/issues"
+  },
+  "homepage": "https://github.com/diaocheng/server#readme",
+  "devDependencies": {
+    "co": "^4.6.0",
+    "statuses": "^1.3.1"
+  }
+}
