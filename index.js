@@ -15,6 +15,8 @@ app.use(function* (next) {
 // response
 app.use(function* (next) {
     this.body = fs.createReadStream('F:/Github/node-staticserver/lib/server.js');
-    return this;
+    this.response.type = 'text/plain';
+    this.response.charset = 'utf-8';
+    console.log(this);
 });
 app.listen(port);
