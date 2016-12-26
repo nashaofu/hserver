@@ -1,63 +1,47 @@
 'use strict';
-const Server = require('./lib/application');
+const Server = require('../lib/application');
 const path = require('path');
 const fs = require('fs');
 const mime = require('mime-types');
 
 
-const port = 80;
+const port = 8080;
 var app = new Server();
 
 // logger
-app.use(function* (next) {
+app.use(function (next) {
     var start = new Date;
-    yield next;
-    var ms = new Date - start;
-    console.log('%s %s %s - time:%s', this.status, this.method, this.url, ms);
+    this.req.on('end', () => {
+        var ms = new Date - start;
+        console.log('%s %s %s - time:%s', this.response.status, this.request.method, this.request.url, ms);
+    });
+    next();
 });
-
 // response
-app.use(function* (next) {
+app.use(function (next) {
     let pathname = decodeURI(this.request.pathname);
     if (pathname.slice(-1) === '/') {
         pathname = path.join(pathname, 'index.html');
     }
-    pathname = path.join('F:/Git/layouter/', pathname);
-    this.options = {};
-    this.options['pathname'] = pathname;
-    yield next;
-    if (!this.response.headerSent || this.response.writable) {
-        this.body = fs.createReadStream(pathname);
-        this.response.charset = 'utf-8';
-    }
-});
-app.use(function* (next) {
-    let path = this.request.pathname;
-    let pathname = this.options['pathname'];
-    let response = this.response;
-    let res = this.res;
-    let ctx = this;
-    yield new Promise(function (resolve, reject) {
-        fs.stat(pathname, function (err, stats) {
-            if (err) {
-                ctx.status = 404;
-                reject(new Error(ctx.status));
+    pathname = path.join('F:/node/server/www/', pathname);
+    fs.stat(pathname, (err, stats) => {
+        if (err) {
+            this.response.status = 404;
+        } else {
+            if (stats.isFile()) {
+                let type = mime.lookup(pathname);
+                let charset = mime.charsets.lookup(type);
+                this.response.set('Content-Type', type + (charset ? '; charset=' + charset : ''));
+                this.body = fs.createReadStream(pathname);
+                this.response.charset = 'utf-8';
+            } else if (stats.isDirectory()) {
+                this.status = 301;
+                this.response.set('Location', path + '/');
             } else {
-                if (stats.isFile()) {
-                    let type = mime.lookup(pathname);
-                    let charset = mime.charsets.lookup(type);
-                    ctx.set('Content-Type', type + (charset ? '; charset=' + charset : ''));
-                } else if (stats.isDirectory()) {
-                    ctx.status = 301;
-                    ctx.set('Location', path + '/');
-                    reject(new Error(ctx.status));
-                } else {
-                    ctx.status = 400;
-                    reject(new Error(ctx.status));
-                }
+                this.status = 400;
             }
-            resolve();
-        });
+        }
+        next();
     });
 });
 app.listen(port);
