@@ -23,7 +23,7 @@ app.use(function (next) {
     if (pathname.slice(-1) === '/') {
         pathname = path.join(pathname, 'index.html');
     }
-    pathname = path.join('F:/node/server/www/', pathname);
+    pathname = path.join('F:\\Git\\layouter', pathname);
     fs.stat(pathname, (err, stats) => {
         if (err) {
             this.response.status = 404;
