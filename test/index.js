@@ -11,9 +11,9 @@ var app = new Server();
 // logger
 app.use(function (next) {
     var start = new Date;
-    this.req.on('end', () => {
+    this.res.once('finish', () => {
         var ms = new Date - start;
-        console.log('%s %s %s - time:%s', this.response.status, this.request.method, this.request.url, ms);
+        console.log('%s %s %s - time:%s', this.status, this.method, this.url, ms);
     });
     next();
 });
