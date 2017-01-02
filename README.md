@@ -1,4 +1,4 @@
-# server
+# hserver
 this is a web app framework
 
 ## Install
