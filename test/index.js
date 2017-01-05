@@ -12,6 +12,7 @@ var app = new Server();
 app.use(function (next) {
     var start = new Date;
     this.res.once('finish', () => {
+        console.log(this)
         var ms = new Date - start;
         console.log('%s %s %s - time:%s', this.status, this.method, this.url, ms);
     });
