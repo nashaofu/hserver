@@ -1,6 +1,6 @@
 {
   "name": "hserver",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "this is a web app framework",
   "main": "index.js",
   "directories": {
