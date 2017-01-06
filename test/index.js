@@ -6,14 +6,13 @@ const mime = require('mime-types');
 
 
 const port = 8080;
-var app = new Server();
+const app = new Server();
 
 // logger
 app.use(function (next) {
-    var start = new Date;
+    const start = new Date;
     this.res.once('finish', () => {
-        console.log(this)
-        var ms = new Date - start;
+        const ms = new Date - start;
         console.log('%s %s %s - time:%s', this.status, this.method, this.url, ms);
     });
     next();
@@ -46,4 +45,4 @@ app.use(function (next) {
     });
 });
 app.listen(port);
-console.log('Server is running at http://127.0.0.1:' + port + '/');
+console.log(`Server is running at http://127.0.0.1:${port}/`);
