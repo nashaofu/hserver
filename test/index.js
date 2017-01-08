@@ -1,12 +1,9 @@
 'use strict';
-const Server = require('../lib/application');
-const path = require('path');
-const fs = require('fs');
-const mime = require('mime-types');
+const Hserver = require('../index');
+const Hstatic = require('hserver-static');
 
-
-const port = 8080;
-const app = new Server();
+const port = 8081;
+const app = new Hserver();
 
 // logger
 app.use(function (next) {
@@ -17,32 +14,34 @@ app.use(function (next) {
     });
     next();
 });
-// response
-app.use(function (next) {
-    let pathname = decodeURI(this.request.pathname);
-    if (pathname.slice(-1) === '/') {
-        pathname = path.join(pathname, 'index.html');
-    }
-    pathname = path.join('F:/Web/LayoutDesigner', pathname);
-    fs.stat(pathname, (err, stats) => {
-        if (err) {
-            this.response.status = 404;
-        } else {
-            if (stats.isFile()) {
-                let type = mime.lookup(pathname);
-                let charset = mime.charsets.lookup(type);
-                this.response.set('Content-Type', type + (charset ? '; charset=' + charset : ''));
-                this.body = fs.createReadStream(pathname);
-                this.response.charset = 'utf-8';
-            } else if (stats.isDirectory()) {
-                this.status = 301;
-                this.response.set('Location', path + '/');
-            } else {
-                this.status = 400;
-            }
-        }
-        next();
-    });
-});
+// static middleware
+app.use(Hstatic({
+    // 定义访问路径前缀
+    // default ''
+    router: '/static',
+    // 定义根文件目录
+    // default '.'
+    root: 'F:\\Web\\LayoutDesigner',
+    // 定义index文件
+    // default 'index.html'
+    index: 'index.html',
+    // 允许访问method ['GET', 'POST', 'HEAD', 'DELETE', 'PUT']
+    // default ['GET', 'HEAD']
+    method: ['GET', 'HEAD'],
+    // 是否启用文件gzip压缩 Array|true|false
+    // ['deflate', 'gzip']
+    // 为true时默认为['deflate', 'gzip']
+    // 为false时，关闭gzip压缩
+    // default false
+    zip: true,
+    // 缓存时间 time(s)|true|0
+    // 为true时，默认缓存时间为7200s
+    // 为0时不缓存
+    // default 0
+    cache: 7200,
+    // etag true|false
+    // default false
+    etag: true
+}));
 app.listen(port);
 console.log(`Server is running at http://127.0.0.1:${port}/`);
