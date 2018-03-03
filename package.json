@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/diaocheng/hserver.git"
+    "url": "git+https://github.com/nashaofu/hserver.git"
   },
   "keywords": [
     "web",
@@ -25,9 +25,9 @@
     "node": ">= 4"
   },
   "bugs": {
-    "url": "https://github.com/diaocheng/hserver/issues"
+    "url": "https://github.com/nashaofu/hserver/issues"
   },
-  "homepage": "https://github.com/diaocheng/hserver#readme",
+  "homepage": "https://github.com/nashaofu/hserver#readme",
   "dependencies": {
     "mime-types": "^2.1.13",
     "statuses": "^1.3.1",

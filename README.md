@@ -66,7 +66,7 @@ this is a web app framework
     app.listen(port);
     ```
 
-3. hserver-static middleware([hserver-static](https://github.com/diaocheng/hserver-static))
+3. hserver-static middleware([hserver-static](https://github.com/nashaofu/hserver-static))
 
     `npm install hserver-static --save`
     ```javascript
