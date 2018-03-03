@@ -19,7 +19,7 @@
     "framework",
     "middleware"
   ],
-  "author": "程刁",
+  "author": "nashaofu",
   "license": "MIT",
   "engines": {
     "node": ">= 4"

@@ -1,6 +1,6 @@
 /*!
  * Hserver
- * Copyright(c) 2016 程刁
+ * Copyright(c) 2016 nashaofu
  * MIT Licensed
  * https://github.com/nashaofu/hserver/issues
  */
