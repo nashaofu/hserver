@@ -1,27 +1,26 @@
-'use strict';
-const Hserver = require('../index');
-const Hstatic = require('hserver-static');
+'use strict'
+const Hserver = require('../index')
+const Hstatic = require('hserver-static')
 
-const port = 8081;
-const app = new Hserver();
+const port = 8081
+const app = new Hserver()
 
 // logger
-app.use(function (next) {
-    const start = new Date;
-    this.res.once('finish', () => {
-        const ms = new Date - start;
-        console.log('%s %s %s - time:%s', this.status, this.method, this.url, ms);
-    });
-    next();
-});
+app.use(async function(ctx, next) {
+  const start = new Date()
+  await next()
+  const ms = new Date() - start
+  console.log('%s %s %s - time:%s', this.status, this.method, this.url, ms)
+})
 // static middleware
-app.use(Hstatic({
+app.use(
+  Hstatic({
     // 定义访问路径前缀
     // default ''
     router: '/static',
     // 定义根文件目录
     // default '.'
-    root: 'F:\\Web\\LayoutDesigner',
+    root: './',
     // 定义index文件
     // default 'index.html'
     index: 'index.html',
@@ -42,6 +41,8 @@ app.use(Hstatic({
     // etag true|false
     // default false
     etag: true
-}));
-app.listen(port);
-console.log(`Server is running at http://127.0.0.1:${port}/`);
+  })
+)
+
+app.listen(port)
+console.log(`Server is running at http://127.0.0.1:${port}/`)
